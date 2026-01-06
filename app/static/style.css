@@ -1,0 +1,353 @@
+:root {
+    --primary-color: #f37021; /* FPT Orange */
+    --secondary-color: #004d9c; /* FPT Blue */
+    --bg-gradient-1: #141e30;
+    --bg-gradient-2: #243b55;
+    --card-bg: rgba(255, 255, 255, 0.1);
+    --text-color: #ffffff;
+    --accent: #e94560;
+    --success: #4caf50;
+    --hover-bg: rgba(255, 255, 255, 0.2);
+    --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Nunito', sans-serif;
+    background: linear-gradient(135deg, var(--bg-gradient-1), var(--bg-gradient-2));
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Background animation effect */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: radial-gradient(circle at 50% 50%, rgba(243, 112, 33, 0.1), transparent 60%);
+    pointer-events: none;
+    z-index: -1;
+    animation: pulse 10s infinite alternate;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 0.5; }
+    100% { transform: scale(1.5); opacity: 0.8; }
+}
+
+.container {
+    width: 90%;
+    max-width: 700px;
+    background: var(--card-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    padding: 2.5rem;
+    box-shadow: var(--shadow);
+    text-align: center;
+    transition: transform 0.3s ease, height 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+h1 {
+    font-family: 'Montserrat', sans-serif;
+    color: var(--primary-color);
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+h2 {
+    font-family: 'Montserrat', sans-serif;
+    color: #fff;
+    margin-bottom: 1.5rem;
+}
+
+p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+.btn {
+    background: linear-gradient(45deg, var(--primary-color), var(--accent));
+    border: none;
+    padding: 15px 40px;
+    color: white;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(243, 112, 33, 0.4);
+    text-transform: uppercase;
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(243, 112, 33, 0.6);
+}
+
+.btn:active {
+    transform: translateY(1px);
+}
+
+.input-field {
+    width: 100%;
+    padding: 15px;
+    margin: 20px 0;
+    border-radius: 10px;
+    border: 2px solid rgba(255,255,255,0.1);
+    background: rgba(0,0,0,0.2);
+    color: white;
+    font-size: 1.1rem;
+    font-family: 'Nunito', sans-serif;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.input-field:focus {
+    border-color: var(--primary-color);
+}
+
+/* Game Interface */
+.progress-bar {
+    width: 100%;
+    height: 12px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 6px;
+    margin-bottom: 30px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary-color), var(--accent));
+    width: 0%;
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 6px;
+}
+
+#question-text {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 30px;
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.option-card {
+    background: rgba(255,255,255,0.05);
+    margin: 12px 0;
+    padding: 20px;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    text-align: left;
+    border: 1px solid rgba(255,255,255,0.05);
+    display: flex;
+    align-items: center;
+}
+
+.option-card:hover {
+    background: var(--hover-bg);
+    transform: translateX(10px);
+    border-color: var(--primary-color);
+}
+
+.option-card::before {
+    content: "➜";
+    margin-right: 15px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    color: var(--primary-color);
+}
+
+.option-card:hover::before {
+    opacity: 1;
+}
+
+/* Results */
+.result-card {
+    background: rgba(0,0,0,0.2);
+    padding: 20px;
+    border-radius: 15px;
+    margin-top: 20px;
+    text-align: left;
+    border-left: 5px solid var(--primary-color);
+}
+
+.badge {
+    display: inline-block;
+    background: linear-gradient(45deg, #11998e, #38ef7d);
+    color: white;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    margin: 5px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    animation: fadeIn 0.5s ease-up;
+}
+
+#top-major {
+    font-size: 1.8rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    display: block;
+    margin-top: 10px;
+    color: var(--primary-color);
+}
+
+/* Animations */
+.hidden {
+    display: none !important;
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.loading {
+    font-style: italic;
+    color: #bbb;
+    font-size: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 200px;
+}
+
+.loading::after {
+    content: "";
+    width: 40px;
+    height: 40px;
+    border: 4px solid #fff;
+    border-top-color: var(--primary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-top: 20px;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .container {
+        width: 95%;
+        padding: 2rem;
+        margin: 1rem 0; /* Add margin on top/bottom for scrolling */
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    #question-text {
+        font-size: 1.2rem;
+        min-height: 60px;
+    }
+}
+
+@media (max-width: 600px) {
+    body {
+        align-items: flex-start; /* Do not center vertically on small screens */
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+
+    .container {
+        width: 100%;
+        max-width: none;
+        border-radius: 0;
+        border: none;
+        box-shadow: none;
+        background: transparent; /* Seamless look on mobile */
+        padding: 1rem;
+    }
+
+    /* Make the card background specifically for the inner content if needed, 
+       or keep the container background but remove spacing around it. 
+       Let's stick to keeping the container visible but fitting the screen. */
+    .container {
+        background: var(--card-bg);
+        border-radius: 15px; /* Keep some radius */
+        margin: 0 10px; /* Small margin */
+        width: calc(100% - 20px);
+    }
+    
+    h1 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+
+    h2 {
+        font-size: 1.3rem;
+    }
+    
+    p {
+        font-size: 1rem;
+    }
+
+    .btn {
+        width: 100%;
+        padding: 12px;
+        font-size: 1rem;
+    }
+
+    .option-card {
+        padding: 15px;
+        font-size: 0.95rem;
+    }
+
+    #question-text {
+        font-size: 1.1rem;
+        margin-bottom: 20px;
+    }
+
+    .input-field {
+        padding: 12px;
+    }
+
+    .result-card {
+        padding: 15px;
+    }
+}
+
+@media (max-width: 380px) {
+    h1 {
+        font-size: 1.3rem;
+    }
+    
+    .badge {
+        font-size: 0.75rem;
+        padding: 5px 10px;
+    }
+}

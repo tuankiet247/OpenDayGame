@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Chọn Ngành - Earn Your Future</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container" id="app">
+        <!-- Intro Section -->
+        <div id="intro-screen">
+            <h1>🎮 EARN YOUR FUTURE</h1>
+            <p>Chào mừng đến với hành trình khám phá bản thân</p>
+            <p>Bạn đã sẵn sàng tìm ra ngành học định mệnh của mình chưa?</p>
+            <button class="btn" onclick="startGame()">BẮT ĐẦU NGAY</button>
+        </div>
+
+        <!-- Profile Section -->
+        <div id="profile-screen" class="hidden">
+            <h2>Hồ sơ người chơi</h2>
+            <p>Cho mình xin chút thông tin nhé!</p>
+            <input type="text" id="username" class="input-field" placeholder="Tên của bạn là gì?">
+            <br>
+            <button class="btn" onclick="submitProfile()">Tiếp tục</button>
+        </div>
+
+        <!-- Game Section -->
+        <div id="game-screen" class="hidden">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress"></div>
+            </div>
+            <h2 id="game-title">Mini Game</h2>
+            <div id="loading-question" class="loading hidden">
+                Đang triệu hồi câu hỏi từ vũ trụ AI... 🤖
+            </div>
+            <div id="question-container">
+                <p id="question-text" style="font-size: 1.2rem; margin-bottom: 20px;">...</p>
+                <div id="options-list">
+                    <!-- Options will be injected here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Result Section -->
+        <div id="result-screen" class="hidden">
+            <h1>🏆 KẾT QUẢ CỦA BẠN</h1>
+            <div id="loading-result" class="loading">
+                Đang phân tích dữ liệu tương lai... 🔮
+            </div>
+            <div id="result-content" class="hidden">
+                <div class="result-card">
+                    <h3>🌟 Ngành phù hợp nhất: <span id="top-major" style="color: var(--primary-color)"></span></h3>
+                    <p id="reasoning"></p>
+                </div>
+                
+                <div class="result-card">
+                    <h4>🤝 Ngành dự phòng:</h4>
+                    <p id="backup-majors"></p>
+                </div>
+
+                <div class="result-card">
+                    <h4>🗺️ Lộ trình đề xuất:</h4>
+                    <p id="roadmap"></p>
+                </div>
+
+                <div class="result-card">
+                    <h4>💼 Cơ hội nghề nghiệp:</h4>
+                    <p id="career"></p>
+                </div>
+
+                <div id="badges-container" style="margin-top: 20px;">
+                    <!-- Badges -->
+                </div>
+
+                <button class="btn" onclick="location.reload()">CHƠI LẠI</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/game.js"></script>
+</body>
+</html>
