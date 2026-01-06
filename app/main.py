@@ -75,16 +75,8 @@ async def api_generate_question(req: QuestionRequest):
     
     if question_data:
         return question_data
-    else:
-        # Fallback if AI fails
-        return {
-            "question": "Lỗi kết nối AI. Nhưng nếu bạn thích máy tính, bạn sẽ chọn?",
-            "options": [
-                {"id": "A", "text": "Code cả ngày", "scores": {"CNTT": 10, "AI": 8}},
-                {"id": "B", "text": "Vẽ máy tính", "scores": {"TKDH": 10}},
-                {"id": "C", "text": "Bán máy tính", "scores": {"MKT": 10}}
-            ]
-        }
+    
+    return {"error": "AI could not generate a question"}
 
 @app.post("/api/submit-result")
 async def api_submit_result(req: ResultRequest):
