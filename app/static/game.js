@@ -1,14 +1,12 @@
-const gameOrder = [
-    // 5 câu Logic
-    'logic', 'logic', 'logic', 'logic', 'logic',
-    // 5 câu Sáng tạo
-    'creative', 'creative', 'creative', 'creative', 'creative',
-    // 5 câu Kinh doanh
-    'business', 'business', 'business', 'business', 'business',
-    // 5 câu Ngôn ngữ
-    'language', 'language', 'language', 'language', 'language'
+const miniGamesConfig = [
+    { type: 'logic', name: 'Tư duy & Logic', count: 5 },
+    { type: 'creative', name: 'Sáng tạo & Thẩm mỹ', count: 5 },
+    { type: 'business', name: 'Giao tiếp & Kinh doanh', count: 5 },
+    { type: 'language', name: 'Ngôn ngữ & Hội nhập', count: 5 }
 ];
-let currentIndex = 0;
+
+let currentMiniGameIndex = 0;
+let currentQuestionIndex = 0;
 let userProfile = { name: '' };
 let scores = {
     "CNTT": 0, "AI": 0, "TKDH": 0, "MKT": 0, "NNA": 0
@@ -43,16 +41,23 @@ function submitProfile() {
 }
 
 async function loadQuestion() {
-    if (currentIndex >= gameOrder.length) {
+    if (currentMiniGameIndex >= miniGamesConfig.length) {
         finishGame();
         return;
     }
 
-    const gameType = gameOrder[currentIndex];
+    const currentGame = miniGamesConfig[currentMiniGameIndex];
     
     // Update UI
-    document.getElementById('game-title').innerText = `Mini Game ${currentIndex + 1}: ${getGameTitle(gameType)}`;
-    const progress = ((currentIndex) / gameOrder.length) * 100;
+    document.getElementById('game-title').innerText = `${currentGame.name} (Câu ${currentQuestionIndex + 1}/${currentGame.count})`;
+    
+    // Calculate total progress
+    let totalQuestions = miniGamesConfig.reduce((a, b) => a + b.count, 0);
+    let questionsDone = 0;
+    for (let i = 0; i < currentMiniGameIndex; i++) questionsDone += miniGamesConfig[i].count;
+    questionsDone += currentQuestionIndex;
+    
+    const progress = (questionsDone / totalQuestions) * 100;
     document.getElementById('progress').style.width = `${progress}%`;
     
     // Show loading
@@ -63,7 +68,7 @@ async function loadQuestion() {
         const response = await fetch('/api/generate-question', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ game_type: gameType })
+            body: JSON.stringify({ game_type: currentGame.type })
         });
         
         const data = await response.json();
@@ -75,16 +80,6 @@ async function loadQuestion() {
         document.getElementById('loading-question').classList.add('hidden');
         document.getElementById('question-container').classList.remove('hidden');
     }
-}
-
-function getGameTitle(type) {
-    const titles = {
-        'logic': 'Tư duy & Logic',
-        'creative': 'Sáng tạo & Thẩm mỹ',
-        'business': 'Giao tiếp & Kinh doanh',
-        'language': 'Ngôn ngữ & Hội nhập'
-    };
-    return titles[type] || type;
 }
 
 function renderQuestion(data) {
@@ -109,7 +104,11 @@ function selectOption(points) {
         }
     }
     
-    currentIndex++;
+    currentQuestionIndex++;
+    if (currentQuestionIndex >= miniGamesConfig[currentMiniGameIndex].count) {
+        currentMiniGameIndex++;
+        currentQuestionIndex = 0;
+    }
     loadQuestion();
 }
 
