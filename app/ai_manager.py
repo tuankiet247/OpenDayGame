@@ -142,41 +142,33 @@ def call_gemini(prompt: str):
         "Content-Type": "application/json"
     }
     
-    # List of models to try in order of priority
-    models = [
-            # Qwen (User Preferred)
-        "xiaomi/mimo-v2-flash:free"
-        
-        
-    ]
+    model = "xiaomi/mimo-v2-flash:free"
     
     if not OPENROUTER_API_KEY:
         print("WARNING: OPENROUTER_API_KEY is not set!")
 
-    for model in models:
-        print(f"Trying AI model: {model}...")
-        data = {
-            "model": model,
-            "messages": [
-                {"role": "user", "content": prompt}
-            ],
-            "temperature": 0.7,
-        }
+    
+    data = {
+        "model": model,
+        "messages": [
+            {"role": "user", "content": prompt}
+        ],
+        "temperature": 0.7,
+    }
+    
+    try:
+        response = requests.post(API_URL, headers=headers, json=data, timeout=10)
         
-        try:
-            response = requests.post(API_URL, headers=headers, json=data, timeout=10)
+        if response.status_code == 200:
+            content = response.json()['choices'][0]['message']['content']
+            # Clean up code blocks
+            content = content.replace("```json", "").replace("```", "").strip()
+            return json.loads(content)
+        else:
+            print(f"Model {model} failed with status {response.status_code}: {response.text}")
             
-            if response.status_code == 200:
-                content = response.json()['choices'][0]['message']['content']
-                # Clean up code blocks
-                content = content.replace("```json", "").replace("```", "").strip()
-                return json.loads(content)
-            else:
-                print(f"Model {model} failed with status {response.status_code}: {response.text}")
-                
-        except Exception as e:
-            print(f"Error with model {model}: {e}")
-            continue
+    except Exception as e:
+        print(f"Error with model {model}: {e}")
 
-    print("All AI models failed. Switching to Offline Mode.")
+    print("AI request failed.")
     return None
