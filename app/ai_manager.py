@@ -29,61 +29,6 @@ import random
 # Offline Data Fallback
 # OFFLINE_QUESTIONS Removed - Using AI Only
 
-
-def generate_question(game_type: str, description: str, related_majors: list):
-    """
-    Sinh câu hỏi cho một mini game cụ thể. Nếu AI lỗi, dùng câu hỏi Offline.
-    """
-    prompt = f"""
-    {GAME_CONTEXT}
-    
-    Hãy đóng vai chuyên gia hướng nghiệp, tạo ra 01 câu hỏi trắc nghiệm dạng TÌNH HUỐNG (Situational Judgment Test) cho chủ đề: "{game_type}".
-    Mô tả chủ đề: {description}
-    Các ngành trọng tâm cần đánh giá: {', '.join(related_majors)} (nhưng hãy mở rộng các phương án để đánh giá cả các ngành khác nếu phù hợp).
-    
-    Yêu cầu quan trọng:
-    1. KHÔNG hỏi trực tiếp kiểu "Bạn thích làm việc gì?" hay liệt kê tên ngành ra đáp án.
-    2. Tình huống phải THỰC TẾ với học sinh lớp 12 (ví dụ: làm bài tập nhóm, tham gia CLB, sử dụng mạng xã hội, giải trí cuối tuần...).
-    3. TRÁNH dùng thuật ngữ chuyên ngành khó hiểu. Hãy dùng ngôn ngữ đời thường, gần gũi.
-    4. Các lựa chọn (A, B, C) là phản xạ tự nhiên:
-       - Một lựa chọn thể hiện tố chất của nhóm "{game_type}".
-       - Các lựa chọn còn lại thể hiện tố chất của nhóm ngành khác.
-    
-    Ví dụ tốt: "Khi lướt TikTok thấy một video trend biến hình cực ngầu, suy nghĩ đầu tiên của bạn là?"
-    -> A. "Họ edit bằng app gì mà mượt thế nhỉ?" (Tò mò công cụ -> CNTT/AI)
-    -> B. "Màu đẹp quá, góc quay này nghệ thật!" (Cảm nhận thẩm mỹ -> TKDH)
-    -> C. "Video này chắc chắn shop tài trợ, view cao thế này bán đắt hàng lắm." (Tư duy thị trường -> MKT)
-    
-    Yêu cầu định dạng JSON (chỉ trả về JSON, không markdown, không giải thích gì thêm):
-    {{
-        "question": "Nội dung tình huống...",
-        "options": [
-            {{
-                "id": "A",
-                "text": "Nội dung lựa chọn A",
-                "scores": {{ "CNTT": 0, "AI": 0, "TKDH": 0, "MKT": 0, "NNA": 0 }}
-            }},
-            {{
-                "id": "B",
-                "text": "Nội dung lựa chọn B",
-                "scores": {{ "CNTT": 0, "AI": 0, "TKDH": 0, "MKT": 0, "NNA": 0 }}
-            }},
-            {{
-                "id": "C",
-                "text": "Nội dung lựa chọn C",
-                "scores": {{ "CNTT": 0, "AI": 0, "TKDH": 0, "MKT": 0, "NNA": 0 }}
-            }}
-        ]
-    }}
-    
-    Lưu ý:
-    - Hãy phân phối điểm số (scores) thật chuẩn xác. Ví dụ nếu chọn phương án thiên về sáng tạo thì điểm TKDH/MKT phải cao, CNTT/AI thấp.
-    - Ngôn ngữ: Chân thành, khách quan, phù hợp với tâm lý học sinh lớp 12 đang băn khoăn chọn nghề.
-    - KHÔNG được thêm ```json ở đầu hay cuối. Chỉ trả về text thuần là JSON.
-    """
-    
-    return call_gemini(prompt)
-
 def analyze_results(scores: dict, user_profile: dict):
     """
     Phân tích kết quả và đưa ra gợi ý.
@@ -132,6 +77,104 @@ def analyze_results(scores: dict, user_profile: dict):
         "roadmap": "Năm 1: Tiếng Anh & Nền tảng -> Năm 2: Chuyên ngành -> Năm 3: OJT (Thực tập) -> Năm 4: Đồ án",
         "career_opportunities": "Chuyên viên tại FPT Software, Startup Founder, Freelancer quốc tế",
         "badges": ["FPT Future Star", "Gen Z Tài Năng"]
+    }
+
+def evaluate_question_options(question_data: dict, game_type: str, description: str, related_majors: list):
+    """
+    Đánh giá điểm số cho các lựa chọn của câu hỏi có sẵn bằng AI.
+    """
+    options_text = ""
+    for opt in question_data["options"]:
+        options_text += f'{opt["label"]}. {opt["text"]}\n'
+
+    prompt = f"""
+    {GAME_CONTEXT}
+    
+    Hãy đóng vai chuyên gia hướng nghiệp, phân tích câu hỏi và các lựa chọn sau đây để gán điểm số phù hợp cho từng ngành học.
+    
+    Chủ đề: "{game_type}" ({description})
+    Câu hỏi (ID {question_data.get('id')}): "{question_data["question_text"]}"
+    
+    Các lựa chọn:
+    {options_text}
+    
+    Các ngành cần chấm điểm: CNTT, AI, TKDH, MKT, NNA.
+    Điểm số từ 0 đến 5 cho mỗi ngành, dựa trên mức độ phù hợp của lựa chọn đó với tố chất của ngành.
+    
+    Yêu cầu định dạng JSON (chỉ trả về JSON, không markdown):
+    {{
+        "question": "{question_data["question_text"]}",
+        "options": [
+            {{
+                "id": "A",
+                "text": "Nội dung lựa chọn A",
+                "scores": {{ "CNTT": x, "AI": x, "TKDH": x, "MKT": x, "NNA": x }}
+            }},
+            {{
+                "id": "B",
+                "text": "Nội dung lựa chọn B",
+                "scores": {{ "CNTT": x, "AI": x, "TKDH": x, "MKT": x, "NNA": x }}
+            }},
+            {{
+                "id": "C",
+                "text": "Nội dung lựa chọn C",
+                "scores": {{ "CNTT": x, "AI": x, "TKDH": x, "MKT": x, "NNA": x }}
+            }}
+        ]
+    }}
+    
+    Lưu ý: 
+    - Giữ nguyên nội dung text của câu hỏi và các lựa chọn.
+    - KHÔNG được thêm ```json ở đầu hay cuối. Chỉ trả về text thuần là JSON.
+    """
+    
+    # Add randomness to prompt to prevent AI Caching
+    prompt += f"\n[Request ID: {random.randint(10000, 99999)}]"
+    
+    print(f"Calling AI for Question ID: {question_data.get('id')}")
+    result = call_gemini(prompt)
+    if result and "options" in result:
+        # Merge AI scores with original question data to ensure text correctness
+        ai_options_map = {opt.get("id"): opt.get("scores") for opt in result["options"]}
+        
+        final_options = []
+        for opt in question_data["options"]:
+            # Default empty scores
+            scores = { "CNTT": 0, "AI": 0, "TKDH": 0, "MKT": 0, "NNA": 0 }
+            
+            # Try to get scores from AI result matching label (A, B, C)
+            if opt["label"] in ai_options_map:
+                scores = ai_options_map[opt["label"]]
+            
+            final_options.append({
+                "id": opt["label"],
+                "text": opt["text"],
+                "scores": scores
+            })
+            
+        return {
+            "id": question_data.get("id"),
+            "question": question_data["question_text"],
+            "options": final_options
+        }
+
+    # Fallback if AI fails
+    fallback_options = []
+    for opt in question_data["options"]:
+        scalar = opt.get("score", 1)
+        scores = { "CNTT": 0, "AI": 0, "TKDH": 0, "MKT": 0, "NNA": 0 }
+        for major in related_majors:
+            scores[major] = scalar
+        fallback_options.append({
+            "id": opt["label"],
+            "text": opt["text"],
+            "scores": scores
+        })
+        
+    return {
+        "id": question_data.get("id"),
+        "question": question_data["question_text"],
+        "options": fallback_options
     }
 
 def call_gemini(prompt: str):
