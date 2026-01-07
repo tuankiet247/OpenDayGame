@@ -6,18 +6,41 @@ from pydantic import BaseModel
 from typing import List, Dict, Optional
 import os
 import sys
+import json
 
 # Ensure we can import from app module regardless of how this script is run
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 try:
-    from app.ai_manager import generate_question, analyze_results
+    from app.ai_manager import analyze_results, evaluate_question_options
 except ImportError:
-    from ai_manager import generate_question, analyze_results
+    from ai_manager import analyze_results, evaluate_question_options
 
 app = FastAPI()
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# Load Questions
+QUESTIONS_DB = []
+try:
+    with open(os.path.join(BASE_DIR, "question.json"), "r", encoding="utf-8") as f:
+        QUESTIONS_DB = json.load(f)
+except Exception as e:
+    print(f"Error loading question.json: {e}")
+
+# Index questions by category for faster access
+QUESTIONS_BY_CATEGORY = {}
+for q in QUESTIONS_DB:
+    cat = q.get("category_id")
+    if cat:
+        if cat not in QUESTIONS_BY_CATEGORY:
+            QUESTIONS_BY_CATEGORY[cat] = []
+        QUESTIONS_BY_CATEGORY[cat].append(q)
+
+# Sort questions in each category by ID to ensure deterministic order
+for cat in QUESTIONS_BY_CATEGORY:
+    QUESTIONS_BY_CATEGORY[cat].sort(key=lambda x: int(x.get("id", 0)))
+    print(f"Category {cat}: loaded {len(QUESTIONS_BY_CATEGORY[cat])} questions (IDs: {[q.get('id') for q in QUESTIONS_BY_CATEGORY[cat]]})")
 
 # Mount static files
 app.mount("/static", StaticFiles(directory=os.path.join(BASE_DIR, "static")), name="static")
@@ -51,6 +74,7 @@ GAME_CONFIG = {
 
 class QuestionRequest(BaseModel):
     game_type: str 
+    question_index: int = 0
 
 class ResultRequest(BaseModel):
     scores: Dict[str, int]
@@ -62,21 +86,39 @@ async def read_root(request: Request):
 
 @app.post("/api/generate-question")
 async def api_generate_question(req: QuestionRequest):
-    game_info = GAME_CONFIG.get(req.game_type)
-    if not game_info:
-        return {"error": "Invalid game type"}
+    # Use req.game_type to match "category_id" in quesiton.json
+    # "logic", "creative", "business", "language"
     
-    # Call AI
-    question_data = generate_question(
-        game_type=game_info["name"],
-        description=game_info["description"],
-        related_majors=game_info["majors"]
-    )
+    questions = QUESTIONS_BY_CATEGORY.get(req.game_type, [])
     
-    if question_data:
-        return question_data
+    if not questions:
+        print(f"Error: Category {req.game_type} not found or empty.")
+        return {"error": f"No questions found for category: {req.game_type}"}
+
+    print(f"DEBUG: Type={req.game_type} Index={req.question_index} Total={len(questions)}")
+
+    # Strict index checking to avoid repetition loops
+    if 0 <= req.question_index < len(questions):
+        selected_question = questions[req.question_index]
+        print(f"DEBUG: Selected Question ID: {selected_question.get('id')}")
+        
+        # Get game description for AI context
+        game_desc = ""
+        game_majors = []
+        if req.game_type in GAME_CONFIG:
+             game_desc = GAME_CONFIG[req.game_type]["description"]
+             game_majors = GAME_CONFIG[req.game_type]["majors"]
+        
+        # Use AI to evaluate options and assign scores
+        return evaluate_question_options(
+            question_data=selected_question,
+            game_type=req.game_type,
+            description=game_desc,
+            related_majors=game_majors
+        )
     
-    return {"error": "AI could not generate a question"}
+    print(f"Error: Index {req.question_index} out of bounds for category {req.game_type}")
+    return {"error": "Question index out of bounds"}
 
 @app.post("/api/submit-result")
 async def api_submit_result(req: ResultRequest):
