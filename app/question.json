@@ -1,0 +1,222 @@
+[
+  {
+    "id": 1,
+    "category": "Tư duy Logic",
+    "category_id": "logic",
+    "question_text": "Khi gặp một vấn đề phức tạp trong học tập hoặc cuộc sống, phản ứng đầu tiên của bạn là gì?",
+    "options": [
+      { "label": "A", "text": "Cảm thấy bối rối và tìm người khác giải quyết giúp.", "score": 1 },
+      { "label": "B", "text": "Thử một vài cách ngẫu nhiên xem có hiệu quả không.", "score": 2 },
+      { "label": "C", "text": "Chia nhỏ vấn đề thành các phần việc cụ thể và tìm nguyên nhân gốc rễ.", "score": 3 }
+    ]
+  },
+  {
+    "id": 2,
+    "category": "Tư duy Logic",
+    "category_id": "logic",
+    "question_text": "Bạn cảm thấy thế nào khi làm việc với các con số, biểu đồ hoặc dữ liệu thống kê?",
+    "options": [
+      { "label": "A", "text": "Nhàm chán và dễ gây buồn ngủ.", "score": 1 },
+      { "label": "B", "text": "Bình thường, làm được nếu bắt buộc.", "score": 2 },
+      { "label": "C", "text": "Thú vị, tôi thích tìm ra quy luật hoặc ý nghĩa đằng sau các con số đó.", "score": 3 }
+    ]
+  },
+  {
+    "id": 3,
+    "category": "Tư duy Logic",
+    "category_id": "logic",
+    "question_text": "Trong các môn học sau, bạn thường hứng thú và đạt kết quả tốt nhất ở môn nào?",
+    "options": [
+      { "label": "A", "text": "Ngữ văn hoặc Giáo dục công dân.", "score": 1 },
+      { "label": "B", "text": "Lịch sử hoặc Địa lý.", "score": 2 },
+      { "label": "C", "text": "Toán, Vật lý hoặc Tin học.", "score": 3 }
+    ]
+  },
+  {
+    "id": 4,
+    "category": "Tư duy Logic",
+    "category_id": "logic",
+    "question_text": "Khi chơi các trò chơi đòi hỏi chiến thuật (cờ vua, game chiến thuật, giải đố...), bạn thường:",
+    "options": [
+      { "label": "A", "text": "Chơi theo cảm tính, vui là chính.", "score": 1 },
+      { "label": "B", "text": "Có tính toán nhưng hay thay đổi tùy hứng.", "score": 2 },
+      { "label": "C", "text": "Luôn vạch ra kế hoạch rõ ràng và dự đoán các bước đi tiếp theo.", "score": 3 }
+    ]
+  },
+  {
+    "id": 5,
+    "category": "Tư duy Logic",
+    "category_id": "logic",
+    "question_text": "Bạn có thích tìm hiểu về cách hoạt động của máy móc, lập trình phần mềm hay quy trình vận hành của một hệ thống không?",
+    "options": [
+      { "label": "A", "text": "Không, tôi chỉ quan tâm đến việc sử dụng chúng.", "score": 1 },
+      { "label": "B", "text": "Có tò mò đôi chút nhưng không tìm hiểu sâu.", "score": 2 },
+      { "label": "C", "text": "Rất thích, tôi thường tự mày mò tìm hiểu nguyên lý của chúng.", "score": 3 }
+    ]
+  },
+  {
+    "id": 6,
+    "category": "Sáng tạo & Thẩm mỹ",
+    "category_id": "creative",
+    "question_text": "Khi nhìn vào một poster quảng cáo hay một bức tranh, điều gì thu hút bạn đầu tiên?",
+    "options": [
+      { "label": "A", "text": "Nội dung chữ viết trên đó.", "score": 1 },
+      { "label": "B", "text": "Màu sắc và hình ảnh bắt mắt.", "score": 2 },
+      { "label": "C", "text": "Bố cục, cách phối màu, font chữ và thông điệp nghệ thuật ẩn sau đó.", "score": 3 }
+    ]
+  },
+  {
+    "id": 7,
+    "category": "Sáng tạo & Thẩm mỹ",
+    "category_id": "creative",
+    "question_text": "Bạn thường giải quyết các bài tập làm văn hoặc dự án nhóm theo cách nào?",
+    "options": [
+      { "label": "A", "text": "Làm theo đúng khuôn mẫu thầy cô đã dạy để an toàn.", "score": 1 },
+      { "label": "B", "text": "Làm theo mẫu nhưng thay đổi một vài chi tiết nhỏ.", "score": 2 },
+      { "label": "C", "text": "Luôn cố gắng tìm một cách tiếp cận mới lạ, độc đáo, khác biệt với mọi người.", "score": 3 }
+    ]
+  },
+  {
+    "id": 8,
+    "category": "Sáng tạo & Thẩm mỹ",
+    "category_id": "creative",
+    "question_text": "Bạn có thường xuyên tham gia hoặc quan tâm đến các hoạt động như vẽ, chụp ảnh, thiết kế, chơi nhạc, hoặc trang trí nhà cửa không?",
+    "options": [
+      { "label": "A", "text": "Hiếm khi hoặc không bao giờ.", "score": 1 },
+      { "label": "B", "text": "Thỉnh thoảng, khi có thời gian rảnh.", "score": 2 },
+      { "label": "C", "text": "Thường xuyên, đó là đam mê của tôi.", "score": 3 }
+    ]
+  },
+  {
+    "id": 9,
+    "category": "Sáng tạo & Thẩm mỹ",
+    "category_id": "creative",
+    "question_text": "Khi nghe một bản nhạc hay xem một bộ phim, bạn thường:",
+    "options": [
+      { "label": "A", "text": "Chỉ quan tâm nội dung chính xem có hay không.", "score": 1 },
+      { "label": "B", "text": "Để ý đến diễn viên hoặc ca sĩ.", "score": 2 },
+      { "label": "C", "text": "Chú ý đến góc quay, ánh sáng, trang phục, giai điệu và cảm xúc mà tác phẩm mang lại.", "score": 3 }
+    ]
+  },
+  {
+    "id": 10,
+    "category": "Sáng tạo & Thẩm mỹ",
+    "category_id": "creative",
+    "question_text": "Nếu được giao nhiệm vụ thiết kế áo lớp, bạn sẽ:",
+    "options": [
+      { "label": "A", "text": "Nhờ người khác làm hoặc đi thuê.", "score": 1 },
+      { "label": "B", "text": "Tìm các mẫu có sẵn trên mạng và chép lại.", "score": 2 },
+      { "label": "C", "text": "Tự tay phác thảo ý tưởng, chọn màu sắc và muốn tạo ra một mẫu \"không đụng hàng\".", "score": 3 }
+    ]
+  },
+  {
+    "id": 11,
+    "category": "Giao tiếp & Kinh doanh",
+    "category_id": "business",
+    "question_text": "Trong một nhóm làm việc, bạn thường đóng vai trò gì?",
+    "options": [
+      { "label": "A", "text": "Người quan sát và làm theo sự phân công.", "score": 1 },
+      { "label": "B", "text": "Người hòa giải các xung đột nếu có.", "score": 2 },
+      { "label": "C", "text": "Người dẫn dắt, lên kế hoạch và thúc đẩy mọi người hoàn thành mục tiêu.", "score": 3 }
+    ]
+  },
+  {
+    "id": 12,
+    "category": "Giao tiếp & Kinh doanh",
+    "category_id": "business",
+    "question_text": "Bạn cảm thấy thế nào khi phải thuyết trình trước đám đông hoặc người lạ?",
+    "options": [
+      { "label": "A", "text": "Rất lo lắng, tim đập nhanh và muốn trốn tránh.", "score": 1 },
+      { "label": "B", "text": "Hơi hồi hộp nhưng vẫn có thể hoàn thành.", "score": 2 },
+      { "label": "C", "text": "Hào hứng, tự tin và xem đó là cơ hội để thể hiện quan điểm.", "score": 3 }
+    ]
+  },
+  {
+    "id": 13,
+    "category": "Giao tiếp & Kinh doanh",
+    "category_id": "business",
+    "question_text": "Nếu bạn có một món đồ cũ không dùng nữa, bạn sẽ làm gì?",
+    "options": [
+      { "label": "A", "text": "Cho tặng người thân hoặc vứt đi.", "score": 1 },
+      { "label": "B", "text": "Đăng lên mạng xã hội xem có ai cần thì bán rẻ.", "score": 2 },
+      { "label": "C", "text": "Tìm cách tân trang lại, chụp ảnh đẹp, viết bài giới thiệu hấp dẫn để bán được giá tốt nhất.", "score": 3 }
+    ]
+  },
+  {
+    "id": 14,
+    "category": "Giao tiếp & Kinh doanh",
+    "category_id": "business",
+    "question_text": "Bạn quan tâm đến các tin tức về thị trường, khởi nghiệp, hay các tỷ phú trên thế giới ở mức độ nào?",
+    "options": [
+      { "label": "A", "text": "Không quan tâm lắm.", "score": 1 },
+      { "label": "B", "text": "Đọc lướt qua nếu thấy tiêu đề hấp dẫn.", "score": 2 },
+      { "label": "C", "text": "Thường xuyên theo dõi và thích phân tích xem tại sao họ thành công.", "score": 3 }
+    ]
+  },
+  {
+    "id": 15,
+    "category": "Giao tiếp & Kinh doanh",
+    "category_id": "business",
+    "question_text": "Khả năng thuyết phục người khác nghe theo ý kiến của bạn như thế nào?",
+    "options": [
+      { "label": "A", "text": "Khá khó khăn, tôi thường nhường nhịn.", "score": 1 },
+      { "label": "B", "text": "Tùy thuộc vào đối tượng và vấn đề.", "score": 2 },
+      { "label": "C", "text": "Khá tốt, tôi biết cách dùng lý lẽ và cảm xúc để người khác đồng thuận.", "score": 3 }
+    ]
+  },
+  {
+    "id": 16,
+    "category": "Ngôn ngữ & Hội nhập",
+    "category_id": "language",
+    "question_text": "Việc học từ vựng và ngữ pháp của một ngôn ngữ mới đối với bạn là:",
+    "options": [
+      { "label": "A", "text": "Một cực hình, rất khó nhớ.", "score": 1 },
+      { "label": "B", "text": "Một môn học bắt buộc phải vượt qua.", "score": 2 },
+      { "label": "C", "text": "Một niềm vui, tôi thích khám phá sự thú vị trong ngôn ngữ đó.", "score": 3 }
+    ]
+  },
+  {
+    "id": 17,
+    "category": "Ngôn ngữ & Hội nhập",
+    "category_id": "language",
+    "question_text": "Bạn có thích tìm hiểu về văn hóa, phong tục tập quán của các quốc gia khác không?",
+    "options": [
+      { "label": "A", "text": "Không, tôi chỉ quan tâm đến văn hóa Việt Nam.", "score": 1 },
+      { "label": "B", "text": "Chỉ tìm hiểu khi đi du lịch hoặc xem phim.", "score": 2 },
+      { "label": "C", "text": "Rất thích, tôi thường xem vlog du lịch, đọc sách báo về văn hóa quốc tế.", "score": 3 }
+    ]
+  },
+  {
+    "id": 18,
+    "category": "Ngôn ngữ & Hội nhập",
+    "category_id": "language",
+    "question_text": "Khi gặp người nước ngoài hỏi đường, bạn sẽ:",
+    "options": [
+      { "label": "A", "text": "Lảng tránh vì ngại giao tiếp hoặc không hiểu.", "score": 1 },
+      { "label": "B", "text": "Dùng ngôn ngữ cơ thể hoặc Google dịch để chỉ dẫn sơ qua.", "score": 2 },
+      { "label": "C", "text": "Tự tin bắt chuyện, hướng dẫn nhiệt tình và coi đó là cơ hội thực hành ngoại ngữ.", "score": 3 }
+    ]
+  },
+  {
+    "id": 19,
+    "category": "Ngôn ngữ & Hội nhập",
+    "category_id": "language",
+    "question_text": "Bạn nghĩ sao về việc làm việc trong môi trường đa quốc gia hoặc đi định cư nước ngoài?",
+    "options": [
+      { "label": "A", "text": "Lo lắng về rào cản ngôn ngữ và nhớ nhà.", "score": 1 },
+      { "label": "B", "text": "Có thể cân nhắc nếu lương cao.", "score": 2 },
+      { "label": "C", "text": "Rất hào hứng, đó là mục tiêu phấn đấu của tôi.", "score": 3 }
+    ]
+  },
+  {
+    "id": 20,
+    "category": "Ngôn ngữ & Hội nhập",
+    "category_id": "language",
+    "question_text": "Bạn thường giải trí (xem phim, nghe nhạc, đọc tin tức) bằng ngôn ngữ nào?",
+    "options": [
+      { "label": "A", "text": "Hoàn toàn là tiếng Việt.", "score": 1 },
+      { "label": "B", "text": "Chủ yếu là tiếng Việt, thỉnh thoảng có tiếng Anh nhưng cần phụ đề/dịch.", "score": 2 },
+      { "label": "C", "text": "Thường xuyên sử dụng tiếng Anh hoặc ngôn ngữ khác để tiếp cận thông tin gốc.", "score": 3 }
+    ]
+  }
+]
