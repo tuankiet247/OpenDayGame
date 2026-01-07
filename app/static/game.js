@@ -35,12 +35,18 @@ function submitProfile() {
         alert('Hãy nhập tên để chúng mình xưng hô nhé!');
         return;
     }
+    
+    // Prevent multiple submissions
+    document.querySelector('#profile-screen .btn').disabled = true;
+    
     userProfile.name = nameInput.value;
     switchScreen('game');
     loadQuestion();
 }
 
 async function loadQuestion() {
+    console.log("Loading Question. MiniGame:", currentMiniGameIndex, "Question:", currentQuestionIndex);
+
     if (currentMiniGameIndex >= miniGamesConfig.length) {
         finishGame();
         return;
@@ -65,13 +71,21 @@ async function loadQuestion() {
     document.getElementById('question-container').classList.add('hidden');
 
     try {
-        const response = await fetch('/api/generate-question', {
+        const response = await fetch(`/api/generate-question?t=${new Date().getTime()}`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ game_type: currentGame.type })
+             headers: { 
+                'Content-Type': 'application/json',
+                'Cache-Control': 'no-cache'
+            },
+            body: JSON.stringify({ 
+                game_type: currentGame.type, 
+                // We send the relative index within the current mini-game (0 to 4)
+                question_index: currentQuestionIndex 
+            })
         });
         
         const data = await response.json();
+        console.log(`Loaded Question: Game=${currentGame.type}, Index=${currentQuestionIndex}, ID=${data.id}`);
         renderQuestion(data);
     } catch (error) {
         console.error('Error:', error);
@@ -97,18 +111,33 @@ function renderQuestion(data) {
 }
 
 function selectOption(points) {
+    // Prevent double clicking
+    const options = document.querySelectorAll('.option-card');
+    options.forEach(opt => opt.style.pointerEvents = 'none');
+
+    console.log('Selecting option. Current Index:', currentQuestionIndex, 'MiniGame Index:', currentMiniGameIndex);
+
     // Add scores
-    for (const [major, score] of Object.entries(points)) {
-        if (scores[major] !== undefined) {
-            scores[major] += score;
+    try {
+        for (const [major, score] of Object.entries(points)) {
+            if (scores[major] !== undefined) {
+                scores[major] += score;
+            }
         }
+    } catch (e) {
+        console.warn("Points structure invalid:", points);
     }
     
+    // Increment index
     currentQuestionIndex++;
+    
+    // Check if we finished the current mini-game
     if (currentQuestionIndex >= miniGamesConfig[currentMiniGameIndex].count) {
         currentMiniGameIndex++;
-        currentQuestionIndex = 0;
+        currentQuestionIndex = 0; // Reset index for the new category
     }
+    
+    console.log('Next Index:', currentQuestionIndex, 'Next MiniGame:', currentMiniGameIndex);
     loadQuestion();
 }
 
